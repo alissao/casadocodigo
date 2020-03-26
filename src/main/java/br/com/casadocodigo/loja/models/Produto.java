@@ -1,5 +1,7 @@
 package br.com.casadocodigo.loja.models;
 
+import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.ElementCollection;
@@ -7,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Produto {
@@ -16,9 +20,14 @@ public class Produto {
 	private String titulo;
 	private String descricao;
 	private int paginas;
+	
+	@DateTimeFormat
+	private Calendar dataLancamento;
 
 	@ElementCollection
 	private List<Preco> precos;
+	
+	private String sumarioPath;
 	
 	public String getTitulo() {
 		return titulo;
@@ -53,6 +62,22 @@ public class Produto {
 	}
 	public void setPrecos(List<Preco> precos) {
 		this.precos = precos;
+	}
+	public Calendar getDataLancamento() {
+		return dataLancamento;
+	}
+	public void setDataLancamento(Calendar dataLancamento) {
+		this.dataLancamento = dataLancamento;
+	}
+	public String getSumarioPath() {
+		return sumarioPath;
+	}
+	public void setSumarioPath(String sumarioPath) {
+		this.sumarioPath = sumarioPath;
+	}
+	public BigDecimal precoPara(TipoPreco tipoPreco) {
+		return precos.stream().filter(preco -> preco.getTipo().equals(tipoPreco))
+				.findFirst().get().getValor();
 	}
 	
 }
