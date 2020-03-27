@@ -39,10 +39,11 @@ public class JPAConfiguration {
 		
 		return factoryBean;
 	}
-	
+
 	@Bean
 	public JpaTransactionManager transactionManager(EntityManagerFactory emf) {
 		return new JpaTransactionManager(emf);
 	}
-
+	
+	
 }
